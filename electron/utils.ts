@@ -1,4 +1,11 @@
 /**
+ * utils
+ */
+
+import path from "path";
+import { app } from "electron";
+
+/**
  * 处理 app url
  * @param str
  * @returns
