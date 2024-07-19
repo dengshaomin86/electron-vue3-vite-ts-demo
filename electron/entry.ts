@@ -7,14 +7,14 @@ import { app, BrowserWindow } from "electron";
 
 const init = () => {
   const win = new BrowserWindow({
-    icon: path.join(import.meta.dirname, "../../public/favicon.ico"),
+    icon: path.join(__dirname, "../../public/favicon.ico"),
     autoHideMenuBar: true,
     webPreferences: {
       webSecurity: false,
       contextIsolation: false,
       nodeIntegration: true,
       nodeIntegrationInWorker: true,
-      // preload: path.join(__dirname, "preload"),
+      preload: path.join(__dirname, "preload"),
     },
   });
 

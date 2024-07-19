@@ -1,7 +1,3 @@
-<script setup lang="ts">
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
   <div>
     <a href="https://vitejs.dev" target="_blank">
@@ -13,6 +9,14 @@ import HelloWorld from './components/HelloWorld.vue'
   </div>
   <HelloWorld msg="Vite + Vue" />
 </template>
+
+<script setup lang="ts">
+import HelloWorld from "./components/HelloWorld.vue";
+import fs from "fs";
+import path from "path";
+
+console.log(fs.readdirSync(path.join("d:/")));
+</script>
 
 <style scoped>
 .logo {

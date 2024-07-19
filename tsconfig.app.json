@@ -9,8 +9,9 @@
     "skipLibCheck": true,
 
     /* Bundler mode */
+    "esModuleInterop": true, // 解决 import fs ts 报错
     "moduleResolution": "node",
-    "allowImportingTsExtensions": true,
+    // "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "moduleDetection": "force",

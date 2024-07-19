@@ -2,7 +2,6 @@
   "name": "electron-vue3-vite-ts-demo",
   "private": true,
   "version": "0.0.0",
-  "type": "module",
   "main": "dist/electron/entry.js",
   "scripts": {
     "dev": "vite",
