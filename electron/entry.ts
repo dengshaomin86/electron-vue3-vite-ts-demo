@@ -4,10 +4,15 @@
 
 import path from "path";
 import { app, BrowserWindow } from "electron";
+import "./tray";
 
 const init = () => {
   const win = new BrowserWindow({
     icon: path.join(__dirname, "../../public/favicon.ico"),
+    width: 1000,
+    height: 700,
+    frame: false,
+    transparent: true,
     autoHideMenuBar: true,
     webPreferences: {
       webSecurity: false,

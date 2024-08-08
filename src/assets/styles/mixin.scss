@@ -1,0 +1,26 @@
+@mixin app-panel {
+  border-radius: 8px;
+  background: var(--panel-bg-color);
+  // border: 1px solid var(--border-color);
+  box-shadow: 1px 3px 10px 1px var(--panel-shadow);
+}
+
+@mixin app-panel2 {
+  border-radius: 8px;
+  background: #363636;
+  box-shadow: 1px 3px 10px 1px var(--panel-shadow);
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: "";
+    display: block;
+    width: 120%;
+    height: 120%;
+    border-radius: 0 80% 0 0;
+    position: absolute;
+    left: -50px;
+    top: -10px;
+    z-index: 0;
+    background: var(--panel-bg-color);
+  }
+}

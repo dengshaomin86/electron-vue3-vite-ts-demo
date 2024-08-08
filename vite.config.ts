@@ -27,4 +27,21 @@ export default defineConfig({
       renderer: {},
     }),
   ],
+  resolve: {
+    alias: {
+      "@": "/src",
+      // vue: 'vue/dist/vue.esm-bundler.js', // 运行时编译
+    },
+  },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        additionalData: `
+        @import '@/assets/styles/reset.scss';
+        @import '@/assets/styles/theme.scss';
+        @import '@/assets/styles/mixin.scss';
+        `,
+      },
+    },
+  },
 });

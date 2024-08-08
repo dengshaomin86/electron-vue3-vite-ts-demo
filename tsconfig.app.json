@@ -7,10 +7,14 @@
     "module": "ESNext",
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"]
+    },
 
     /* Bundler mode */
     "esModuleInterop": true, // 解决 import fs ts 报错
     "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
     // "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
@@ -20,7 +24,7 @@
 
     /* Linting */
     "strict": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false, // 声明了但从未读取其值
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },

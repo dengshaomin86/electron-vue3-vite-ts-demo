@@ -1,0 +1,23 @@
+:root {
+  --font-color: #333;
+  --font-sub-color: #666;
+  --bg-color: rgba(255, 255, 255, 1);
+  --panel-bg-color: rgba(255, 255, 255, 0.4);
+  --panel-shadow: rgba(0, 0, 0, 0.2);
+  --hover-color: rgba(255, 255, 255, 0.7);
+  --border-color: rgba(0, 0, 0, 0.1);
+  --link-color: rgba(64, 160, 255, 1);
+  --link-hover-color: rgba(64, 160, 255, 0.5);
+}
+
+:root[theme="dark"] {
+  --font-color: #fff;
+  --font-sub-color: #ddd;
+  --bg-color: #212121;
+  --panel-bg-color: linear-gradient(to top right, #2f2b2a, #222222);
+  --panel-shadow: rgba(0, 0, 0, 0.7);
+  --hover-color: rgba(0, 0, 0, 0.7);
+  --border-color: rgba(255, 255, 255, 0.1);
+  --link-color: rgba(64, 160, 255, 1);
+  --link-hover-color: rgba(64, 160, 255, 0.5);
+}

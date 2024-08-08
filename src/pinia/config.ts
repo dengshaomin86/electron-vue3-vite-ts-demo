@@ -1,28 +1,23 @@
 import { defineStore } from "pinia";
 
-export interface Config {
-  [key: string]: string;
-}
+type Theme = "light" | "dark";
 
 interface State {
-  config: Config;
+  theme: Theme;
 }
 
 export const useConfigStore = defineStore("config", {
   state: (): State => {
     return {
-      config: {
-        background: "",
-      },
+      theme: "dark",
     };
   },
   getters: {
-    background: (state) => state.config.background,
+    gTheme: (state) => state.theme,
   },
   actions: {
-    updateConfig(data: any) {
-      if (!data) return;
-      this.config = data;
+    setTheme() {
+      document.documentElement.setAttribute("theme", this.theme);
     },
   },
 });

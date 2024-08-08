@@ -11,6 +11,8 @@
     "electron:build": "rimraf dist && vite build && electron-builder"
   },
   "dependencies": {
+    "@electron/remote": "^2.1.2",
+    "electron-devtools-installer": "^3.2.0",
     "fs-extra": "^11.2.0",
     "pinia": "^2.1.7",
     "vue": "^3.4.31",
