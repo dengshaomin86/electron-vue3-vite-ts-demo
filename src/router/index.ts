@@ -4,7 +4,7 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
     name: "root",
-    redirect: { name: "Home" },
+    redirect: { name: "home" },
   },
   {
     path: "/home",
@@ -32,7 +32,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/:pathMatch(.*)*",
-    name: "NotFound",
+    name: "notFound",
     component: () => import("../views/NotFound.vue"),
     meta: {
       title: "NotFound",
