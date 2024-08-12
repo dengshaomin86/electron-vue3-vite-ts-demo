@@ -16,12 +16,17 @@ import { handleAppUrl } from "./utils";
  */
 export function createBrowserWindow(url: string = "", opts: any = {}, show = true) {
   const win = new BrowserWindow({
-    icon: path.join(__dirname, "../../public/favicon.ico"), // 任务栏图标
+    icon: path.join(__dirname, "../../public/favicon.ico"),
+    width: 1000,
+    height: 700,
+    frame: false,
+    transparent: true,
     autoHideMenuBar: true,
     webPreferences: {
       webSecurity: false,
       contextIsolation: false,
       nodeIntegration: true,
+      nodeIntegrationInWorker: true,
       preload: path.join(__dirname, "preload"),
     },
     ...opts,

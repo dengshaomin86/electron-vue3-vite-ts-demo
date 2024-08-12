@@ -1,11 +1,27 @@
 <template>
   <div class="header">
     <div></div>
-    <div class="r"></div>
+    <div class="r">
+      <div class="icons">
+        <el-icon :size="12" @click="minimize"><SemiSelect /></el-icon>
+        <el-icon :size="14" @click="destroy"><CloseBold /></el-icon>
+      </div>
+    </div>
   </div>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { ipcRenderer } from "electron";
+import { CloseBold, SemiSelect } from "@element-plus/icons-vue";
+
+const minimize = () => {
+  ipcRenderer.send("minimize");
+};
+
+const destroy = () => {
+  ipcRenderer.send("destroy");
+};
+</script>
 
 <style lang="scss" scoped>
 .header {
@@ -18,6 +34,22 @@
     @include app-panel;
     width: 300px;
     border-radius: 0 0 0 100px;
+    .icons {
+      padding-right: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      .el-icon {
+        @include nodrag;
+        width: 20px;
+        height: 20px;
+        margin-left: 4px;
+        &:hover {
+          cursor: pointer;
+          background-color: var(--hover-color);
+        }
+      }
+    }
   }
 }
 </style>

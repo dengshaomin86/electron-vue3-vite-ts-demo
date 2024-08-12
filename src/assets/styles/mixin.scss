@@ -1,3 +1,9 @@
+// mixin
+
+@mixin nodrag {
+  -webkit-app-region: no-drag;
+}
+
 @mixin app-panel {
   border-radius: 8px;
   background: var(--panel-bg-color);
