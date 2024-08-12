@@ -69,6 +69,7 @@ const init = async () => {
       {
         name: "Finish task",
         type: "line",
+        smooth: true,
         symbol: "none",
         sampling: "lttb",
         itemStyle: {
