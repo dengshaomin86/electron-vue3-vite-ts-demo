@@ -10,6 +10,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from "moment";
 import { ref } from "vue";
 import { ipcRenderer } from "electron";
 import { app } from "@electron/remote";
@@ -26,7 +27,7 @@ const bytesPerSecond = ref<number>(0);
 
 // 监听更新可用
 ipcRenderer.on("update-available", (_e, { version, releaseDate }) => {
-  const confirm = window.confirm(`发现新版本 ${version}，是否下载？${releaseDate}`);
+  const confirm = window.confirm(`发现新版本 ${version}，发布时间${moment(releaseDate).format("yyyy-MM-DD HH:mm:ss")}，是否下载？`);
   confirm && ipcRenderer.send("downloadUpdate");
 });
 

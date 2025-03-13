@@ -5,16 +5,14 @@
 import { app, BrowserWindow } from "electron";
 import { autoUpdater } from "electron-updater";
 import { logger } from "./logger";
+import { FEED_URL } from "./config";
 
 let win: BrowserWindow | null = null;
 
 // 关闭自动下载
 autoUpdater.autoDownload = false;
 // 设置更新源
-autoUpdater.setFeedURL({
-  provider: "generic",
-  url: "http://localhost:3000/updates/",
-});
+autoUpdater.setFeedURL({ provider: "generic", url: FEED_URL });
 
 // 下载进度监听
 autoUpdater.on("download-progress", (progress) => {
@@ -44,8 +42,6 @@ export const checkForUpdates = async () => {
     win = BrowserWindow.getFocusedWindow();
 
     const result = await autoUpdater.checkForUpdates();
-
-    logger.info(result);
 
     if (result?.updateInfo) {
       logger.info("发现新版本:", result.updateInfo.version);
