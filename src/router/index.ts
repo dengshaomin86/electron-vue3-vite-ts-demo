@@ -1,14 +1,16 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from "vue-router";
 
+// home|config|about|filemanage|note|userinfo|notice|
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/",
-    name: "root",
-    redirect: { name: "home" },
+    name: "Root",
+    redirect: { name: "Home" },
   },
   {
     path: "/home",
-    name: "home",
+    name: "Home",
     component: () => import("../views/Home.vue"),
     meta: {
       title: "首页",
@@ -16,7 +18,7 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/config",
-    name: "config",
+    name: "Config",
     component: () => import("../views/Config.vue"),
     meta: {
       title: "设置",
@@ -24,10 +26,34 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/about",
-    name: "about",
+    name: "About",
     component: () => import("../views/About.vue"),
     meta: {
       title: "关于",
+    },
+  },
+  {
+    path: "/weather",
+    name: "Weather",
+    component: () => import("../views/Weather.vue"),
+    meta: {
+      title: "天气",
+    },
+  },
+  {
+    path: "/sports",
+    name: "Sports",
+    component: () => import("../views/Sports.vue"),
+    meta: {
+      title: "运动",
+    },
+  },
+  {
+    path: "/tasks",
+    name: "Tasks",
+    component: () => import("../views/Tasks.vue"),
+    meta: {
+      title: "任务",
     },
   },
   {
