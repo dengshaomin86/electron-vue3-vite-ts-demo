@@ -6,14 +6,14 @@
     </div>
     <div class="content">
       <template v-for="item in MENUS">
-        <i :class="['iconfont', item.icon]" @click="routeTo(item)"></i>
+        <i :class="['iconfont', item.icon, { active: route.name === item.routeName }]" @click="routeTo(item)"></i>
       </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 interface MenuItem {
   icon: string;
@@ -43,6 +43,7 @@ const MENUS: MenuItem[] = [
   },
 ];
 
+const route = useRoute();
 const router = useRouter();
 
 const routeTo = (item: MenuItem) => {
@@ -93,6 +94,9 @@ const routeTo = (item: MenuItem) => {
       }
       &:hover {
         cursor: pointer;
+        color: var(--el-color-primary);
+      }
+      &.active {
         color: var(--el-color-primary);
       }
     }
