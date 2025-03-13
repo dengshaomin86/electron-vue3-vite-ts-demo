@@ -11,16 +11,8 @@
 </template>
 
 <script setup lang="ts">
-import { ipcRenderer } from "electron";
 import { CloseBold, SemiSelect } from "@element-plus/icons-vue";
-
-const minimize = () => {
-  ipcRenderer.send("minimize");
-};
-
-const destroy = () => {
-  ipcRenderer.send("destroy");
-};
+import { minimize, destroy } from "@/utils/ipcRenderer";
 </script>
 
 <style lang="scss" scoped>

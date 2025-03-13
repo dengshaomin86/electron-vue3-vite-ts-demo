@@ -1,27 +1,31 @@
 /**
- * logger
+ * 日志
  */
 
-import fs from "fs-extra";
 import path from "path";
-import moment from "moment";
+import log from "electron-log";
+import { BrowserWindow } from "electron";
+import { CACHES_DIR } from "./constants";
 
-type MSG_TYPE = "INFO" | "WARNING" | "ERROR" | "SUCCESS";
-
-const dest = path.join("d:", "logger.log");
-
-const format = (type: MSG_TYPE = "INFO", ...msg: string[]) => {
-  return `[${moment().format("yyyy-MM-DD HH:mm:ss")}][${type}]${msg}`;
+export const logDevtools = (...arg: any) => {
+  const wins = BrowserWindow.getAllWindows() || [];
+  for (let win of wins.reverse()) {
+    if (win.isVisible()) {
+      win.webContents.send("logDevtools", ...arg);
+      break;
+    }
+  }
 };
 
-const writeLog = (content: string) => {
-  fs.appendFileSync(dest, content, "utf8");
-};
+/**
+ * electron-log 配置
+ */
 
-const logger = (...msg: string[]) => logger.info(...msg);
-logger.info = (...msg: string[]) => writeLog(format("INFO", ...msg));
-logger.warning = (...msg: string[]) => writeLog(format("WARNING", ...msg));
-logger.error = (...msg: string[]) => writeLog(format("ERROR", ...msg));
-logger.success = (...msg: string[]) => writeLog(format("SUCCESS", ...msg));
+// 关闭控制台打印
+log.transports.console.level = false;
+// 文件最大1MB
+log.transports.file.maxSize = 1024 * 1024;
+// 文件路径
+log.transports.file.resolvePathFn = () => path.join(CACHES_DIR, "logs", "main.log");
 
-export default logger;
+export const logger = log;
