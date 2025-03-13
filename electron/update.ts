@@ -35,11 +35,11 @@ autoUpdater.on("error", (error) => {
 
 export const checkForUpdates = async () => {
   try {
+    win = BrowserWindow.getFocusedWindow();
+
     if (!app.isPackaged) {
       throw new Error("开发环境无法检查更新!");
     }
-
-    win = BrowserWindow.getFocusedWindow();
 
     const result = await autoUpdater.checkForUpdates();
 
