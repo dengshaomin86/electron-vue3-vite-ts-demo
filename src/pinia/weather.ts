@@ -1,19 +1,64 @@
 import axios from "axios";
 import { defineStore } from "pinia";
 
-interface State {}
+interface CityInfo {
+  city: string;
+  citykey: string;
+  parent: string;
+  updateTime: string;
+}
+
+interface Forecast {
+  aqi: number;
+  date: string;
+  fl: string;
+  fx: string;
+  high: string;
+  low: string;
+  notice: string;
+  sunrise: string;
+  sunset: string;
+  type: string;
+  week: string;
+  ymd: string;
+}
+
+interface WeatherData {
+  forecast: Forecast[];
+  ganmao: string;
+  pm10: number;
+  pm25: number;
+  quality: string;
+  shidu: string;
+  wendu: string;
+  yesterday: Forecast;
+}
+
+interface State {
+  cityInfo: CityInfo | null;
+  weatherData: WeatherData | null;
+}
 
 export const useWeatherStore = defineStore("weather", {
   state: (): State => {
-    return {};
+    return {
+      cityInfo: null,
+      weatherData: null,
+    };
   },
-  getters: {},
+  getters: {
+    gCityInfo: (state) => state.cityInfo,
+    gWeatherData: (state) => state.weatherData,
+    gForecast: (state) => state.weatherData?.forecast || [],
+  },
   actions: {
     async getWeather() {
       // 中国天气网城市id https://www.weather.com.cn/
       const adcode = "101280601"; // 101030100|101280601
-      const result = await axios.get(`http://t.weather.itboy.net/api/weather/city/${adcode}`);
-      console.log(result);
+      const { data } = await axios.get(`http://t.weather.itboy.net/api/weather/city/${adcode}`);
+      if (!data) return;
+      this.cityInfo = data.cityInfo;
+      this.weatherData = data.data;
     },
     async gdGetWeather() {
       const location = await this.gdGetLocationByIP();

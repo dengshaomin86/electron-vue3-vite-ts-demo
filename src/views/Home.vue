@@ -14,14 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import fs from "fs";
-import path from "path";
 import Statistics from "@/components/Statistics.vue";
 import Calendar from "@/components/Calendar.vue";
 import Weather from "@/components/Weather.vue";
 import Task from "@/components/Task.vue";
-
-console.log(fs.readdirSync(path.join("d:/")));
 </script>
 
 <style lang="scss" scoped>
