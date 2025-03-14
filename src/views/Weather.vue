@@ -4,7 +4,8 @@
     <main>
       <div class="list">
         <div class="list-item" v-for="item in gForecast">
-          <div class="list-item-label">{{ item.date }}</div>
+          <div class="list-item-label">{{ item.week }}</div>
+          <div class="list-item-label">{{ fmtData(item.ymd) }}</div>
           <el-icon><MostlyCloudy /></el-icon>
           <div class="list-item-desc">{{ item.type }}</div>
           <div class="list-item-desc">{{ item.fx }}{{ item.fl }}</div>
@@ -16,6 +17,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from "moment";
 import { onMounted, computed, watch } from "vue";
 import { MostlyCloudy } from "@element-plus/icons-vue";
 import { useWeatherStore } from "@/pinia/weather";
@@ -30,6 +32,8 @@ const gForecast = computed(() => {
     return { ...v, lowN, highN };
   });
 });
+
+const fmtData = (date: string) => moment(date).format("MM-DD");
 
 const draw = async () => {
   if (!gForecast.value.length) return;
@@ -141,7 +145,7 @@ onMounted(init);
         flex: 1;
         text-align: center;
         &-label {
-          font-size: 14px;
+          font-size: 10px;
         }
         &-desc {
           font-size: 10px;
