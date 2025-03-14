@@ -1,5 +1,6 @@
 <template>
   <div class="weather">
+    <el-button type="primary" link size="small" @click="more">更多</el-button>
     <el-icon><MostlyCloudy /></el-icon>
     <div class="text">{{ city }}</div>
     <div class="text">{{ range }}，{{ today?.fx }}{{ today?.fl }}</div>
@@ -14,9 +15,11 @@
 
 <script setup lang="ts">
 import { onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
 import { MostlyCloudy } from "@element-plus/icons-vue";
 import { useWeatherStore } from "@/pinia/weather";
 
+const router = useRouter();
 const weatherStore = useWeatherStore();
 
 const gCityInfo = computed(() => weatherStore.gCityInfo);
@@ -53,6 +56,8 @@ const list = computed(() => {
 
 const wd = (data: string | undefined) => data && data.replace(/.+?(\d+)/, "$1");
 
+const more = () => router.push({ name: "Weather" });
+
 const init = () => {
   weatherStore.getWeather();
 };
@@ -64,6 +69,10 @@ onMounted(init);
 .weather {
   @include app-panel;
   padding: 16px;
+
+  .el-button {
+    float: right;
+  }
 
   .text {
     font-size: 12px;
