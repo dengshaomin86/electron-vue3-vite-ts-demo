@@ -41,5 +41,15 @@ export const useWeatherStore = defineStore("weather", {
         return null;
       }
     },
+    async getLocationByIP() {
+      try {
+        const response = await fetch("https://ipapi.co/json/");
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error(error);
+        return null;
+      }
+    },
   },
 });
