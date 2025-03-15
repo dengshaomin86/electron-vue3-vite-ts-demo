@@ -2,7 +2,10 @@
   <div class="weather">
     <el-button type="primary" link size="small" @click="more">更多</el-button>
     <el-icon><MostlyCloudy /></el-icon>
-    <div class="text">{{ city }}</div>
+    <div class="text">
+      <el-icon><Location /></el-icon>
+      <span>{{ city }}</span>
+    </div>
     <div class="text">{{ range }}，{{ today?.fx }}{{ today?.fl }}</div>
     <div class="list">
       <div class="list-item" v-for="item in list">
@@ -16,7 +19,7 @@
 <script setup lang="ts">
 import { onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
-import { MostlyCloudy } from "@element-plus/icons-vue";
+import { MostlyCloudy, Location } from "@element-plus/icons-vue";
 import { useWeatherStore } from "@/pinia/weather";
 
 const router = useRouter();
@@ -77,9 +80,16 @@ onMounted(init);
   .text {
     font-size: 12px;
     margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+
+    .el-icon {
+      font-size: 14px;
+      margin-right: 2px;
+    }
   }
 
-  .el-icon {
+  > .el-icon {
     font-size: 60px;
     margin: 0 auto;
     display: block;
