@@ -2,9 +2,9 @@
 <template>
   <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
     <!-- 云 -->
-    <ellipse cx="80" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
-    <ellipse cx="40" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
-    <ellipse cx="60" cy="30" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+    <ellipse cx="90" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+    <ellipse cx="50" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+    <ellipse cx="70" cy="30" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
 
     <!-- 闪电 -->
     <polygon class="lightning" points="75,70 65,90 75,85 85,110 75,95 85,90" />

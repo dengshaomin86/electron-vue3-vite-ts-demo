@@ -1,15 +1,18 @@
 <!-- 雨 -->
 <template>
   <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
+    <!-- <rect width="150" height="150" fill="#e0f7fa" /> -->
     <!-- 云 -->
-    <ellipse cx="80" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
-    <ellipse cx="40" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
-    <ellipse cx="60" cy="30" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+    <ellipse cx="90" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+    <ellipse cx="50" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+    <ellipse cx="70" cy="30" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+
+    <use v-for="item in drops" href="#raindrop" :x="item.x" :y="item.y" :width="item.width" :height="item.width" class="raindrop" />
 
     <!-- 雨滴 -->
-    <path class="raindrop" d="M40 80 Q45 85 50 80 T60 90 Q55 95 50 90 T40 80 Z" />
-    <path class="raindrop" d="M60 90 Q65 95 70 90 T80 100 Q75 105 70 100 T60 90 Z" />
-    <path class="raindrop" d="M30 90 Q35 95 40 90 T50 100 Q45 105 40 100 T30 90 Z" />
+    <symbol id="raindrop" viewBox="0 0 400 400">
+      <path d="M80 130 A160 160, 0, 1, 0, 320 130L200 0Z" fill="#72b5fc" />
+    </symbol>
 
     <defs>
       <!-- 定义云的渐变 -->
@@ -25,7 +28,53 @@
   </svg>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { withDefaults, computed } from "vue";
+
+interface DropItem {
+  x: number;
+  y: number;
+  width: number;
+}
+
+interface Props {
+  type?: "small" | "middle" | "large";
+}
+
+const VIEW_WIDTH = 150;
+
+enum DropNum {
+  small = 2,
+  middle = 3,
+  large = 4,
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  type: "middle",
+});
+
+const drops = computed(() => {
+  const dropNum = DropNum[props.type];
+  return getListByNum(dropNum);
+});
+
+function getRandomInt(min: number, max: number) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+const getListByNum = (num: number) => {
+  const gap = 5;
+  const width = 15;
+  let list: DropItem[] = [];
+  let wt = width * num + (num - 1) * gap;
+  let x = Math.floor((VIEW_WIDTH - wt) / 2);
+  for (let i = 0; i < num; i++) {
+    x = i ? x + gap + width : x;
+    list.push({ width, x, y: 50 });
+  }
+  return list;
+};
+</script>
 
 <style lang="scss" scoped>
 svg {
@@ -52,13 +101,16 @@ svg {
 }
 
 /* 每个雨滴的延迟时间 */
-.raindrop:nth-child(1) {
+.raindrop:nth-of-type(1) {
   animation-delay: 0s;
 }
-.raindrop:nth-child(2) {
+.raindrop:nth-of-type(2) {
   animation-delay: 0.2s;
 }
-.raindrop:nth-child(3) {
+.raindrop:nth-of-type(3) {
   animation-delay: 0.4s;
+}
+.raindrop:nth-of-type(3) {
+  animation-delay: 0.6s;
 }
 </style>

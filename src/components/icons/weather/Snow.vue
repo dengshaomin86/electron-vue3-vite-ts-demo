@@ -1,26 +1,28 @@
 <!-- 雪 -->
 <template>
   <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
-    <!-- 背景 -->
-    <!-- <rect width="150" height="150" fill="#e0f7fa" /> -->
+    <!-- 定义云的渐变 -->
+    <defs>
+      <radialGradient id="cloudGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+        <stop offset="0%" stop-color="#f0f0f0" />
+        <stop offset="100%" stop-color="#d0d0d0" />
+      </radialGradient>
+    </defs>
+
+    <!-- 云 -->
+    <ellipse cx="90" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+    <ellipse cx="50" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+    <ellipse cx="70" cy="30" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
 
     <!-- 雪花 -->
-    <g class="snowflake" transform="translate(75, 75)">
-      <!-- 雪花的基本形状 -->
-      <line x1="0" y1="-30" x2="0" y2="30" />
-      <line x1="-30" y1="0" x2="30" y2="0" />
-      <line x1="-21.21" y1="-21.21" x2="21.21" y2="21.21" />
-      <line x1="-21.21" y1="21.21" x2="21.21" y2="-21.21" />
-      <!-- 雪花的细节 -->
-      <line x1="-10" y1="-30" x2="10" y2="-30" />
-      <line x1="-10" y1="30" x2="10" y2="30" />
-      <line x1="-30" y1="-10" x2="-30" y2="10" />
-      <line x1="30" y1="-10" x2="30" y2="10" />
-      <line x1="-24.24" y1="-24.24" x2="-15.15" y2="-15.15" />
-      <line x1="24.24" y1="24.24" x2="15.15" y2="15.15" />
-      <line x1="-24.24" y1="24.24" x2="-15.15" y2="15.15" />
-      <line x1="24.24" y1="-24.24" x2="15.15" y2="-15.15" />
-    </g>
+    <use href="#snow" x="60" y="0" width="15" class="snowflake" />
+    <use href="#snow" x="85" y="0" width="15" class="snowflake" />
+    <use href="#snow" x="35" y="0" width="15" class="snowflake" />
+
+    <!-- 雪花 -->
+    <symbol id="snow" viewBox="0 0 200 200">
+      <path stroke="#fff" stroke-width="8" d="M100 0V200M25 25L175 175M25 175L175 25M0 100H200M75 1H125M75 199H125M1 75V125M199 75V125"></path>
+    </symbol>
   </svg>
 </template>
 
@@ -32,35 +34,47 @@ svg {
   height: 1em;
 }
 
-/* 定义雪花旋转的动画 */
-@keyframes rotate {
+/* 定义雨滴和雪花下落的动画 */
+@keyframes fall {
   0% {
-    transform: rotate(0deg);
+    transform: translateY(0);
+    opacity: 1;
   }
   100% {
-    transform: rotate(360deg);
+    transform: translateY(50px);
+    opacity: 0;
   }
 }
 
-/* 定义雪花闪烁的动画 */
-@keyframes sparkle {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    opacity: 1;
-  }
+/* 雨滴样式 */
+.raindrop {
+  animation: fall 1s linear infinite;
 }
 
 /* 雪花样式 */
 .snowflake {
-  fill: none;
-  stroke: #87ceeb;
-  stroke-width: 2;
-  animation: rotate 5s linear infinite, sparkle 2s ease-in-out infinite;
-  transform-origin: center;
+  animation: fall 2s linear infinite;
+}
+
+/* 每个雨滴和雪花的延迟时间 */
+.raindrop:nth-of-type(1),
+.snowflake:nth-of-type(1) {
+  animation-delay: 0s;
+}
+.raindrop:nth-of-type(2),
+.snowflake:nth-of-type(2) {
+  animation-delay: 0.2s;
+}
+.raindrop:nth-of-type(3),
+.snowflake:nth-of-type(3) {
+  animation-delay: 0.4s;
+}
+.raindrop:nth-of-type(4),
+.snowflake:nth-of-type(4) {
+  animation-delay: 0.6s;
+}
+.raindrop:nth-of-type(5),
+.snowflake:nth-of-type(5) {
+  animation-delay: 0.8s;
 }
 </style>

@@ -10,19 +10,28 @@
     </defs>
 
     <!-- 云 -->
-    <ellipse cx="80" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
-    <ellipse cx="40" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
-    <ellipse cx="60" cy="30" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+    <ellipse cx="90" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+    <ellipse cx="50" cy="40" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
+    <ellipse cx="70" cy="30" rx="35" ry="25" fill="url(#cloudGradient)" filter="url(#cloudShadow)" />
 
     <!-- 雨滴 -->
-    <path class="raindrop" d="M40 60 Q45 65 50 60 T60 70 Q55 75 50 70 T40 60 Z" />
-    <path class="raindrop" d="M60 70 Q65 75 70 70 T80 80 Q75 85 70 80 T60 70 Z" />
-    <path class="raindrop" d="M30 70 Q35 75 40 70 T50 80 Q45 85 40 80 T30 70 Z" />
+    <use href="#raindrop" x="60" y="0" width="15" class="raindrop" />
+    <use href="#raindrop" x="80" y="0" width="15" class="raindrop" />
+    <use href="#raindrop" x="40" y="0" width="15" class="raindrop" />
 
     <!-- 雪花 -->
-    <path class="snowflake" d="M50 90 L55 95 L50 100 L45 95 Z" />
-    <path class="snowflake" d="M70 90 L75 95 L70 100 L65 95 Z" />
-    <path class="snowflake" d="M30 90 L35 95 L30 100 L25 95 Z" />
+    <use href="#snow" x="60" y="0" width="15" class="snowflake" />
+    <use href="#snow" x="90" y="0" width="15" class="snowflake" />
+    <use href="#snow" x="30" y="0" width="15" class="snowflake" />
+
+    <!-- 雨滴 -->
+    <symbol id="raindrop" viewBox="0 0 400 400">
+      <path d="M80 130 A160 160, 0, 1, 0, 320 130L200 0Z" fill="#72b5fc" />
+    </symbol>
+    <!-- 雪花 -->
+    <symbol id="snow" viewBox="0 0 200 200">
+      <path stroke="#fff" stroke-width="8" d="M100 0V200M25 25L175 175M25 175L175 25M0 100H200M75 1H125M75 199H125M1 75V125M199 75V125"></path>
+    </symbol>
   </svg>
 </template>
 
@@ -41,44 +50,40 @@ svg {
     opacity: 1;
   }
   100% {
-    transform: translateY(100px);
+    transform: translateY(50px);
     opacity: 0;
   }
 }
 
 /* 雨滴样式 */
 .raindrop {
-  fill: #00f;
   animation: fall 1s linear infinite;
 }
 
 /* 雪花样式 */
 .snowflake {
-  fill: #fff;
-  stroke: #87ceeb;
-  stroke-width: 1;
   animation: fall 2s linear infinite;
 }
 
 /* 每个雨滴和雪花的延迟时间 */
-.raindrop:nth-child(1),
-.snowflake:nth-child(1) {
+.raindrop:nth-of-type(1),
+.snowflake:nth-of-type(1) {
   animation-delay: 0s;
 }
-.raindrop:nth-child(2),
-.snowflake:nth-child(2) {
+.raindrop:nth-of-type(2),
+.snowflake:nth-of-type(2) {
   animation-delay: 0.2s;
 }
-.raindrop:nth-child(3),
-.snowflake:nth-child(3) {
+.raindrop:nth-of-type(3),
+.snowflake:nth-of-type(3) {
   animation-delay: 0.4s;
 }
-.raindrop:nth-child(4),
-.snowflake:nth-child(4) {
+.raindrop:nth-of-type(4),
+.snowflake:nth-of-type(4) {
   animation-delay: 0.6s;
 }
-.raindrop:nth-child(5),
-.snowflake:nth-child(5) {
+.raindrop:nth-of-type(5),
+.snowflake:nth-of-type(5) {
   animation-delay: 0.8s;
 }
 </style>
