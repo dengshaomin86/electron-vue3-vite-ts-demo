@@ -3,6 +3,11 @@
   <svg viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg">
     <!-- 定义渐变和阴影 -->
     <defs>
+      <!-- 定义云的渐变 -->
+      <radialGradient id="cloudGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+        <stop offset="0%" stop-color="#f0f0f0" />
+        <stop offset="100%" stop-color="#d0d0d0" />
+      </radialGradient>
       <!-- 太阳的径向渐变 -->
       <radialGradient id="sunGradient" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
         <stop offset="0%" stop-color="#ffcc00" />
@@ -14,9 +19,6 @@
         <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="rgba(0,0,0,0.3)" />
       </filter>
     </defs>
-
-    <!-- 背景天空 -->
-    <!-- <rect width="150" height="150" fill="#87CEEB" /> -->
 
     <!-- 太阳 -->
     <circle class="sun" cx="75" cy="50" r="20" fill="url(#sunGradient)" />

@@ -1,7 +1,7 @@
 <template>
   <div class="weather">
     <el-button type="primary" link size="small" @click="more">更多</el-button>
-    <el-icon><MostlyCloudy /></el-icon>
+    <WeatherIcon :name="today?.type"></WeatherIcon>
     <div class="text">
       <el-icon><Location /></el-icon>
       <span>{{ city }}</span>
@@ -19,8 +19,9 @@
 <script setup lang="ts">
 import { onMounted, computed } from "vue";
 import { useRouter } from "vue-router";
-import { MostlyCloudy, Location } from "@element-plus/icons-vue";
+import { Location } from "@element-plus/icons-vue";
 import { useWeatherStore } from "@/pinia/weather";
+import WeatherIcon from "@/components/icons/weather/WeatherIcon.vue";
 
 const router = useRouter();
 const weatherStore = useWeatherStore();
@@ -90,6 +91,12 @@ onMounted(init);
   }
 
   > .el-icon {
+    font-size: 60px;
+    margin: 0 auto;
+    display: block;
+  }
+
+  > svg {
     font-size: 60px;
     margin: 0 auto;
     display: block;

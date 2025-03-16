@@ -6,7 +6,7 @@
         <div class="list-item" v-for="item in gForecast">
           <div class="list-item-label">{{ item.week }}</div>
           <div class="list-item-label">{{ fmtData(item.ymd) }}</div>
-          <el-icon><MostlyCloudy /></el-icon>
+          <WeatherIcon :name="item.type"></WeatherIcon>
           <div class="list-item-desc">{{ item.type }}</div>
           <div class="list-item-desc">{{ item.fx }}{{ item.fl }}</div>
         </div>
@@ -19,8 +19,8 @@
 <script setup lang="ts">
 import moment from "moment";
 import { onMounted, computed, watch } from "vue";
-import { MostlyCloudy } from "@element-plus/icons-vue";
 import { useWeatherStore } from "@/pinia/weather";
+import WeatherIcon from "@/components/icons/weather/WeatherIcon.vue";
 
 const weatherStore = useWeatherStore();
 
@@ -40,6 +40,7 @@ const draw = async () => {
 
   // 获取 canvas 元素和上下文
   const canvas = <HTMLCanvasElement>document.getElementById("lineChart");
+  if (!canvas) return;
   canvas.width = 900;
   canvas.height = 300;
   const ctx = canvas.getContext("2d")!;
@@ -155,6 +156,10 @@ onMounted(init);
           font-size: 20px;
           margin-top: 4px;
           color: skyblue;
+        }
+        > svg {
+          font-size: 30px;
+          margin-top: 4px;
         }
       }
     }
