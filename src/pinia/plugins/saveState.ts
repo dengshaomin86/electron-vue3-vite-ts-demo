@@ -10,9 +10,10 @@ const STORE_DIR = path.join(CACHES_DIR, "store");
 
 const handleFilename = (id: string) => `${id}.as`;
 
-const ensureFileSync = (dest: string) => {
-  if (fs.existsSync(dest)) return;
-  fs.mkdirSync(path.dirname(dest));
+const ensureDirSync = (dest: string) => {
+  const dir = path.dirname(dest);
+  if (fs.existsSync(dir)) return;
+  fs.mkdirSync(dir);
 };
 
 // 合并 store state
@@ -44,7 +45,7 @@ function writeState(store: Store, persist = false) {
   const { $id } = store;
   if (!persist) return;
   const dest = path.join(STORE_DIR, handleFilename($id));
-  ensureFileSync(dest);
+  ensureDirSync(dest);
   fs.writeFileSync(dest, JSON.stringify(store.$state), "utf8");
 }
 
