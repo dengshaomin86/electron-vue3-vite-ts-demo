@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import type { FormInstance, FormItemRule } from 'element-plus';
-import ExtFormRow from './ExtFormRow.vue';
-import ExtFormCol from './ExtFormCol.vue';
+import { ref, computed } from "vue";
+import type { FormInstance, FormItemRule } from "element-plus";
+import ExtFormRow from "./ExtFormRow.vue";
+import ExtFormCol from "./ExtFormCol.vue";
 
 export interface FormItem {
   prop: string;
