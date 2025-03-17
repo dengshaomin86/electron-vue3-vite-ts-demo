@@ -3,6 +3,24 @@
  */
 
 /**
+ * 生成随机 id
+ */
+export function createRandomId(key = "id") {
+  const str = Math.random().toString(36).slice(2);
+  const date = Date.now().toString(36);
+  return `${key}-${str}-${date}`;
+}
+
+/**
+ * 延时
+ * @param {*} time
+ * @returns
+ */
+export function delay(time: number = 300) {
+  return new Promise<void>((resolve) => setTimeout(resolve, time));
+}
+
+/**
  * 格式化文件大小, 输出成带单位的字符串
  * @param size 文件大小
  * @param pointLength 精确到的小数点数
