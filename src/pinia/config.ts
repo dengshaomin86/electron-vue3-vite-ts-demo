@@ -7,6 +7,7 @@ interface State {
 }
 
 export const useConfigStore = defineStore("config", {
+  persist: true,
   state: (): State => {
     return {
       theme: "dark",
