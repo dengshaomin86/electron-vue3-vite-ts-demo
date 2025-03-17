@@ -1,9 +1,12 @@
 <template>
   <div class="wrapper">
     <h1>待办</h1>
-    <div>
-      <el-button type="primary" @click="handleAdd">新增</el-button>
-    </div>
+    <ExtForm ref="formRef" size="small" inline :items="itemsSearch" :model="formDataSearch">
+      <template #opts>
+        <el-button type="primary" :loading="loading" @click="getList">查询</el-button>
+        <el-button @click="handleAdd">新增</el-button>
+      </template>
+    </ExtForm>
     <div class="list">
       <div class="list-item" v-for="item in tasks">
         <div class="list-item-title">
@@ -11,10 +14,12 @@
           <span class="tag success" v-else>#已完成</span>
           <span>{{ item.title }}</span>
         </div>
-        <div class="list-item-content">{{ item.content }}</div>
+        <div class="list-item-content">
+          <pre>{{ item.content }}</pre>
+        </div>
         <div class="list-item-opts">
           <div>
-            <span class="time">{{ fmtDate(item.mtime || item.ctime) }}</span>
+            <span class="time">{{ fmtDate(item.ctime) }}</span>
             <span class="time" v-if="item.ftime">&nbsp;/&nbsp;{{ fmtDate(item.ftime) }}</span>
           </div>
           <span>
@@ -58,7 +63,13 @@ const formData = reactive({
   content: "",
 });
 
+const formDataSearch = reactive({
+  ctime: "",
+  status: "all",
+});
+
 const tasks = computed(() => taskStore.gTasks);
+
 const items = computed<FormItem[]>(() => {
   return [
     {
@@ -74,7 +85,53 @@ const items = computed<FormItem[]>(() => {
       label: "内容",
       component: "el-input",
       attrs: {
+        type: "textarea",
         placeholder: "请输入",
+        autosize: {
+          minRows: 3,
+        },
+      },
+    },
+    {
+      prop: "",
+      label: "",
+      slot: "opts",
+    },
+  ];
+});
+
+const itemsSearch = computed<FormItem[]>(() => {
+  return [
+    {
+      prop: "ctime",
+      label: "创建时间",
+      span: 6,
+      component: "el-date-picker",
+      attrs: {
+        placeholder: "请选择",
+      },
+    },
+    {
+      prop: "status",
+      label: "状态",
+      span: 6,
+      component: "el-select-v2",
+      attrs: {
+        placeholder: "请选择",
+        options: [
+          {
+            value: "process",
+            label: "处理中",
+          },
+          {
+            value: "success",
+            label: "已完成",
+          },
+          {
+            value: "all",
+            label: "全部",
+          },
+        ],
       },
     },
     {
@@ -101,7 +158,7 @@ const handleAdd = () => {
 const submit = () => {
   const validate = formRef.value!.validate();
   validate(async (result) => {
-    console.log(result);
+    if (!result) return;
     loading.value = true;
     await delay(1000);
     if (taskId.value) {
@@ -136,11 +193,16 @@ const finishItem = (item: TaskItem) => {
     })
     .catch(() => {});
 };
+
+const getList = () => {};
 </script>
 
 <style lang="scss" scoped>
 .wrapper {
   padding: 16px;
+  h1 {
+    margin-bottom: 12px;
+  }
 }
 
 .list {
@@ -170,6 +232,10 @@ const finishItem = (item: TaskItem) => {
     &-content {
       padding: 8px 16px;
       font-size: 14px;
+      pre {
+        word-break: break-all;
+        white-space: pre-wrap;
+      }
     }
     &-opts {
       padding: 8px 16px;

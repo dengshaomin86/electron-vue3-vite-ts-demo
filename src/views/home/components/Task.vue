@@ -1,11 +1,26 @@
 <template>
   <div class="task">
     <h1>待办</h1>
+    <ul>
+      <li v-for="item in tasksProcess">
+        <div class="title">{{ item.title }}</div>
+        <pre class="content">{{ item.content }}</pre>
+        <div class="time">{{ fmtDate(item.ctime) }}</div>
+      </li>
+    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import moment from "moment";
+import { ref, computed } from "vue";
+import { useTaskStore, TaskItem } from "@/pinia/task";
+
+const taskStore = useTaskStore();
+
+const tasksProcess = computed(() => taskStore.gTasksProcess);
+
+const fmtDate = (date: Date) => moment(date).format("yyyy-MM-DD HH:mm:ss");
 </script>
 
 <style lang="scss" scoped>
@@ -16,6 +31,32 @@ import { ref } from "vue";
 
   h1 {
     font-size: 2vw;
+    margin-bottom: 1vw;
+  }
+
+  ul {
+    list-style: disc;
+    padding-left: 2vw;
+
+    li {
+      margin-bottom: 1vw;
+      .title {
+        font-size: 1.5vw;
+        font-weight: bold;
+        margin-bottom: 0.6vw;
+      }
+      .content {
+        font-size: 1.2vw;
+        color: rgba(255, 255, 255, 0.6);
+        word-break: break-all;
+        white-space: pre-wrap;
+        margin-bottom: 0.6vw;
+      }
+      .time {
+        font-size: 1.2vw;
+        color: rgba(255, 255, 255, 0.6);
+      }
+    }
   }
 }
 </style>

@@ -24,6 +24,7 @@ export const useTaskStore = defineStore("task", {
   },
   getters: {
     gTasks: (state) => state.tasks,
+    gTasksProcess: (state) => state.tasks.filter((v) => v.status === "process").slice(0, 10),
   },
   actions: {
     addTask(data: Pick<TaskItem, "title" | "content">) {
