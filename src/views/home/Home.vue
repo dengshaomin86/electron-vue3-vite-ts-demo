@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import Statistics from "@/components/Statistics.vue";
-import Calendar from "@/components/Calendar.vue";
-import Weather from "@/components/Weather.vue";
-import Task from "@/components/Task.vue";
+import Statistics from "./components/Statistics.vue";
+import Calendar from "./components/Calendar.vue";
+import Weather from "./components/Weather.vue";
+import Task from "./components/Task.vue";
 </script>
 
 <style lang="scss" scoped>
