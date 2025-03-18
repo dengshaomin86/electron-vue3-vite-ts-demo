@@ -3,12 +3,13 @@
     <h1>待办</h1>
     <ExtForm ref="formRef" size="small" inline :items="itemsSearch" :model="formDataSearch">
       <template #opts>
-        <el-button type="primary" :loading="loading" @click="getList">查询</el-button>
+        <el-button type="primary" :loading="loading" @click="search">查询</el-button>
+        <el-button @click="reset">重置</el-button>
         <el-button @click="handleAdd">新增</el-button>
       </template>
     </ExtForm>
     <div class="list">
-      <div class="list-item" v-for="item in tasks">
+      <div class="list-item" v-for="item in list">
         <div class="list-item-title">
           <span class="tag primary" v-if="item.status === 'process'">#处理中</span>
           <span class="tag success" v-else>#已完成</span>
@@ -32,6 +33,9 @@
         </div>
       </div>
     </div>
+    <el-empty v-if="!list.length"></el-empty>
+
+    <ExtPagination v-model:pageNum="pageNum" :pageSize="pageSize" :total="total" @change="getList"></ExtPagination>
 
     <el-dialog v-model="visible" title="新增" :destroy-on-close="true">
       <ExtForm ref="formRef" :items="items" :model="formData">
@@ -46,10 +50,11 @@
 <script setup lang="ts">
 import moment from "moment";
 import { cloneDeep } from "lodash-es";
-import { ref, computed, reactive, nextTick } from "vue";
+import { ref, computed, reactive, nextTick, onActivated } from "vue";
 import { ElMessageBox } from "element-plus";
-import { useTaskStore, TaskItem } from "@/pinia/task";
+import { useTaskStore, TaskItem, Status } from "@/pinia/task";
 import ExtForm, { FormItem } from "@/components/ExtForm.vue";
+import ExtPagination from "@/components/ExtPagination.vue";
 import { delay } from "@/utils";
 
 const taskStore = useTaskStore();
@@ -58,13 +63,17 @@ const formRef = ref<InstanceType<typeof ExtForm>>();
 const visible = ref<boolean>(false);
 const loading = ref<boolean>(false);
 const taskId = ref<string>("");
+const pageNum = ref<number>(1);
+const pageSize = ref<number>(10);
+const total = ref<number>(0);
+const list = ref<TaskItem[]>([]);
 const formData = reactive({
   title: "",
   content: "",
 });
 
-const formDataSearch = reactive({
-  ctime: "",
+const formDataSearch = reactive<{ daterange: string[]; status: Status | "all" }>({
+  daterange: [],
   status: "all",
 });
 
@@ -103,12 +112,15 @@ const items = computed<FormItem[]>(() => {
 const itemsSearch = computed<FormItem[]>(() => {
   return [
     {
-      prop: "ctime",
+      prop: "daterange",
       label: "创建时间",
-      span: 6,
+      span: 8,
       component: "el-date-picker",
       attrs: {
-        placeholder: "请选择",
+        type: "daterange",
+        startPlaceholder: "开始日期",
+        endPlaceholder: "结束日期",
+        valueFormat: "YYYY-MM-DD",
       },
     },
     {
@@ -124,7 +136,7 @@ const itemsSearch = computed<FormItem[]>(() => {
             label: "处理中",
           },
           {
-            value: "success",
+            value: "finish",
             label: "已完成",
           },
           {
@@ -160,7 +172,6 @@ const submit = () => {
   validate(async (result) => {
     if (!result) return;
     loading.value = true;
-    await delay(1000);
     if (taskId.value) {
       taskStore.modifyTask({ ...cloneDeep(formData), id: taskId.value });
     } else {
@@ -168,6 +179,7 @@ const submit = () => {
     }
     loading.value = false;
     visible.value = false;
+    getList();
   });
 };
 
@@ -194,7 +206,23 @@ const finishItem = (item: TaskItem) => {
     .catch(() => {});
 };
 
-const getList = () => {};
+const search = () => {
+  pageNum.value = 1;
+  getList();
+};
+
+const reset = () => {
+  formDataSearch.daterange = [];
+  formDataSearch.status = "all";
+};
+
+const getList = () => {
+  const result = taskStore.queryList({ pageNum: pageNum.value, pageSize: pageSize.value, ...formDataSearch });
+  list.value = result.list;
+  total.value = result.total;
+};
+
+onActivated(getList);
 </script>
 
 <style lang="scss" scoped>
