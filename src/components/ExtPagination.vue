@@ -1,14 +1,14 @@
 <template>
   <div class="ext-pagination">
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" @click="prev">
-      <path d="M65 20L35 50L65 80"></path>
+      <path d="M65 20L35 50L65 80" fill="none"></path>
     </svg>
     <div class="ext-pagination-num">
       <input type="text" :value="pageNum" @input="onInput" @keydown.stop="onkeydown" />
       <div>/&nbsp;{{ totalPage }}</div>
     </div>
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" @click="next">
-      <path d="M35 20L65 50L35 80"></path>
+      <path d="M35 20L65 50L35 80" fill="none"></path>
     </svg>
   </div>
 </template>
@@ -61,8 +61,8 @@ const next = () => {
 
 <style lang="scss" scoped>
 .ext-pagination {
-  float: right;
   display: flex;
+  justify-content: end;
   align-items: center;
   user-select: none;
 

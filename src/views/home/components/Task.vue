@@ -28,6 +28,8 @@ const fmtDate = (date: Date) => moment(date).format("yyyy-MM-DD HH:mm:ss");
   @include app-panel;
   height: 100%;
   padding: 1.5vw;
+  display: flex;
+  flex-direction: column;
 
   h1 {
     font-size: 2vw;
@@ -37,6 +39,11 @@ const fmtDate = (date: Date) => moment(date).format("yyyy-MM-DD HH:mm:ss");
   ul {
     list-style: disc;
     padding-left: 2vw;
+    flex-grow: 1;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 1px;
+    }
 
     li {
       margin-bottom: 1vw;
