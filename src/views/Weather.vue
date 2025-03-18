@@ -4,8 +4,8 @@
     <main>
       <div class="list">
         <div class="list-item" v-for="item in gForecast">
-          <div class="list-item-label">{{ item.week }}</div>
           <div class="list-item-label">{{ fmtData(item.ymd) }}</div>
+          <div class="list-item-label">{{ item.week.slice(2) }}</div>
           <WeatherIcon :name="item.type"></WeatherIcon>
           <div class="list-item-desc">{{ item.type }}</div>
           <div class="list-item-desc">{{ item.fx }}{{ item.fl }}</div>
