@@ -37,8 +37,8 @@
 
     <ExtPagination v-model:pageNum="pageNum" :pageSize="pageSize" :total="total" @change="getList"></ExtPagination>
 
-    <el-dialog v-model="visible" title="新增" :destroy-on-close="true">
-      <ExtForm ref="formRef" :items="items" :model="formData">
+    <el-dialog v-model="visible" title="新增" :destroy-on-close="true" :close-on-click-modal="false">
+      <ExtForm ref="formRef" class="form-task" :items="items" :model="formData" :label-width="60">
         <template #opts>
           <el-button type="primary" :loading="loading" @click="submit">提交</el-button>
         </template>
@@ -76,14 +76,13 @@ const formDataSearch = reactive<{ daterange: string[]; status: Status | "all" }>
   status: "all",
 });
 
-const tasks = computed(() => taskStore.gTasks);
-
 const items = computed<FormItem[]>(() => {
   return [
     {
       prop: "title",
       label: "标题",
       component: "el-input",
+      rules: [{ required: true, message: "不能为空", trigger: "change" }],
       attrs: {
         placeholder: "请输入",
       },
@@ -273,6 +272,13 @@ onActivated(getList);
       font-size: 12px;
       color: rgba(255, 255, 255, 0.6);
     }
+  }
+}
+
+::v-deep .form-task {
+  margin: 0 40px;
+  .el-form-item {
+    margin-bottom: 16px;
   }
 }
 </style>
