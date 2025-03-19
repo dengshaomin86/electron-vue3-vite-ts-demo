@@ -1,26 +1,27 @@
 <template>
   <div class="task">
     <h1>待办</h1>
-    <ul>
+    <ul v-if="tasksProcess.length">
       <li v-for="item in tasksProcess">
         <div class="title">{{ item.title }}</div>
         <pre class="content">{{ item.content }}</pre>
         <div class="time">{{ fmtDate(item.ctime) }}</div>
       </li>
     </ul>
+    <el-empty v-else></el-empty>
   </div>
 </template>
 
 <script setup lang="ts">
-import moment from "moment";
-import { ref, computed } from "vue";
-import { useTaskStore, TaskItem } from "@/pinia/task";
+import moment from 'moment';
+import { computed } from 'vue';
+import { useTaskStore } from '@/pinia/task';
 
 const taskStore = useTaskStore();
 
 const tasksProcess = computed(() => taskStore.gTasksProcess);
 
-const fmtDate = (date: Date) => moment(date).format("yyyy-MM-DD HH:mm:ss");
+const fmtDate = (date: Date) => moment(date).format('yyyy-MM-DD HH:mm:ss');
 </script>
 
 <style lang="scss" scoped>
