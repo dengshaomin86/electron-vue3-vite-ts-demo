@@ -5,7 +5,7 @@
         <ExtFormCol :span="item.span">
           <el-form-item :prop="item.prop" :label="item.label" :rules="item.rules">
             <slot v-if="item.slot" :name="item.slot" :data="model[item.prop]" :attrs="item.attrs" :listeners="item.listeners"></slot>
-            <component v-else :is="item.component" v-bind="item.attrs || {}" v-on="item.listeners || {}" v-model="model[item.prop]"></component>
+            <component v-else :is="item.component" v-model="model[item.prop]" v-bind="item.attrs || {}" v-on="item.listeners || {}"></component>
           </el-form-item>
         </ExtFormCol>
       </template>
@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import type { FormInstance, FormItemRule } from "element-plus";
-import ExtFormRow from "./ExtFormRow.vue";
-import ExtFormCol from "./ExtFormCol.vue";
+import { ref, computed } from 'vue';
+import type { FormInstance, FormItemRule } from 'element-plus';
+import ExtFormRow from './ExtFormRow.vue';
+import ExtFormCol from './ExtFormCol.vue';
 
 export interface FormItem {
   prop: string;
