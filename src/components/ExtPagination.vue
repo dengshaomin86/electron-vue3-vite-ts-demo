@@ -4,7 +4,7 @@
       <path d="M65 20L35 50L65 80" fill="none"></path>
     </svg>
     <div class="ext-pagination-num">
-      <input type="text" :value="pageNum" @input="onInput" @keydown.stop="onkeydown" />
+      <input type="text" :value="pageNum" @input="onInput" @change="change(($event.target as any).value)" @keydown.stop="onkeydown" />
       <div>/&nbsp;{{ totalPage }}</div>
     </div>
     <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" @click="next">
@@ -14,7 +14,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 
 interface Props {
   pageNum: number;
@@ -23,7 +23,7 @@ interface Props {
 }
 
 const props = defineProps<Props>();
-const emits = defineEmits(["update:pageNum", "change"]);
+const emits = defineEmits(['update:pageNum', 'change']);
 
 const totalPage = computed<number>(() => {
   if (!props.pageSize || !props.total) return 0;
@@ -31,19 +31,19 @@ const totalPage = computed<number>(() => {
 });
 
 const change = (val: number) => {
-  emits("update:pageNum", val);
-  emits("change");
+  val = Number(val);
+  if (val === props.pageNum) return;
+  emits('update:pageNum', val);
+  emits('change');
 };
 
 const onkeydown = () => {};
 
 const onInput = (e: any) => {
-  let val = Number(e.target.value.replace(/\D/g, ""));
+  let val = Number(e.target.value.replace(/\D/g, ''));
   if (val > totalPage.value) val = totalPage.value;
   if (val < 1) val = 1;
   e.target.value = val;
-  if (val === props.pageNum) return;
-  change(val);
 };
 
 const prev = () => {
