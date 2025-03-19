@@ -48,61 +48,64 @@
 </template>
 
 <script setup lang="ts">
-import moment from "moment";
-import { cloneDeep } from "lodash-es";
-import { ref, computed, reactive, onActivated } from "vue";
-import { ElMessageBox } from "element-plus";
-import { useTaskStore, TaskItem, Status } from "@/pinia/task";
-import ExtForm, { FormItem } from "@/components/ExtForm.vue";
-import ExtPagination from "@/components/ExtPagination.vue";
+import moment from 'moment';
+import { cloneDeep } from 'lodash-es';
+import { ref, computed, reactive, onActivated } from 'vue';
+import { ElMessageBox } from 'element-plus';
+import { useTaskStore, TaskItem, Status } from '@/pinia/task';
+import ExtForm, { FormItem } from '@/components/ExtForm.vue';
+import ExtPagination from '@/components/ExtPagination.vue';
 
 const taskStore = useTaskStore();
 
 const formRef = ref<InstanceType<typeof ExtForm>>();
 const visible = ref<boolean>(false);
 const loading = ref<boolean>(false);
-const taskId = ref<string>("");
+const taskId = ref<string>('');
 const pageNum = ref<number>(1);
 const pageSize = ref<number>(10);
 const total = ref<number>(0);
 const list = ref<TaskItem[]>([]);
 const formData = reactive({
-  title: "",
-  content: "",
+  title: '',
+  content: '',
 });
 
-const formDataSearch = reactive<{ daterange: string[]; status: Status | "all" }>({
+const formDataSearch = reactive<{
+  daterange: string[];
+  status: Status | 'all';
+}>({
   daterange: [],
-  status: "all",
+  status: 'all',
 });
 
 const items = computed<FormItem[]>(() => {
   return [
     {
-      prop: "title",
-      label: "标题",
-      component: "el-input",
-      rules: [{ required: true, message: "不能为空", trigger: "change" }],
+      prop: 'title',
+      label: '标题',
+      component: 'el-input',
+      rules: [{ required: true, message: '不能为空', trigger: 'change' }],
       attrs: {
-        placeholder: "请输入",
+        placeholder: '请输入',
       },
     },
     {
-      prop: "content",
-      label: "内容",
-      component: "el-input",
+      prop: 'content',
+      label: '内容',
+      component: 'el-input',
       attrs: {
-        type: "textarea",
-        placeholder: "请输入",
+        type: 'textarea',
+        placeholder: '请输入',
         autosize: {
           minRows: 3,
         },
       },
     },
     {
-      prop: "",
-      label: "",
-      slot: "opts",
+      prop: '',
+      label: '',
+      slot: 'opts',
     },
   ];
 });
@@ -110,54 +113,54 @@ const items = computed<FormItem[]>(() => {
 const itemsSearch = computed<FormItem[]>(() => {
   return [
     {
-      prop: "daterange",
-      label: "创建时间",
+      prop: 'daterange',
+      label: '创建时间',
       span: 8,
-      component: "el-date-picker",
+      component: 'el-date-picker',
       attrs: {
-        type: "daterange",
-        startPlaceholder: "开始日期",
-        endPlaceholder: "结束日期",
-        valueFormat: "YYYY-MM-DD",
+        type: 'daterange',
+        startPlaceholder: '开始日期',
+        endPlaceholder: '结束日期',
+        valueFormat: 'YYYY-MM-DD',
       },
     },
     {
-      prop: "status",
-      label: "状态",
+      prop: 'status',
+      label: '状态',
       span: 6,
-      component: "el-select-v2",
+      component: 'el-select-v2',
       attrs: {
-        placeholder: "请选择",
+        placeholder: '请选择',
         options: [
           {
-            value: "process",
-            label: "处理中",
+            value: 'process',
+            label: '处理中',
           },
           {
-            value: "finish",
-            label: "已完成",
+            value: 'finish',
+            label: '已完成',
           },
           {
-            value: "all",
-            label: "全部",
+            value: 'all',
+            label: '全部',
           },
         ],
       },
     },
     {
-      prop: "",
-      label: "",
-      slot: "opts",
+      prop: '',
+      label: '',
+      slot: 'opts',
     },
   ];
 });
 
-const fmtDate = (date: Date) => moment(date).format("yyyy-MM-DD HH:mm:ss");
+const fmtDate = (date: Date) => moment(date).format('yyyy-MM-DD HH:mm:ss');
 
 const showDialog = () => {
-  taskId.value = "";
-  formData.title = "";
-  formData.content = "";
+  taskId.value = '';
+  formData.title = '';
+  formData.content = '';
   visible.value = true;
 };
 
@@ -182,7 +185,10 @@ const submit = () => {
 };
 
 const delItem = (item: TaskItem) => {
-  ElMessageBox.confirm(`是否删除${item.title}?`, { title: "提示", type: "warning" })
+  ElMessageBox.confirm(`是否删除${item.title}?`, {
+    title: '提示',
+    type: 'warning',
+  })
     .then(() => {
       taskStore.delTask(item.id);
     })
@@ -197,7 +203,10 @@ const handleModify = async (item: TaskItem) => {
 };
 
 const finishItem = (item: TaskItem) => {
-  ElMessageBox.confirm(`是否标记完成${item.title}?`, { title: "提示", type: "warning" })
+  ElMessageBox.confirm(`是否标记完成${item.title}?`, {
+    title: '提示',
+    type: 'warning',
+  })
     .then(() => {
       taskStore.finishTask(item.id);
     })
@@ -211,7 +220,7 @@ const search = () => {
 
 const reset = () => {
   formDataSearch.daterange = [];
-  formDataSearch.status = "all";
+  formDataSearch.status = 'all';
 };
 
 const getList = () => {
@@ -226,6 +235,8 @@ onActivated(getList);
 <style lang="scss" scoped>
 .wrapper {
   padding: 16px;
+  height: 100%;
+  overflow: auto;
   h1 {
     margin-bottom: 12px;
   }
