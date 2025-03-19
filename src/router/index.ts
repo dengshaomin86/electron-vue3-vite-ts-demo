@@ -41,11 +41,11 @@ const routes: Array<RouteRecordRaw> = [
     },
   },
   {
-    path: "/sports",
-    name: "Sports",
-    component: () => import("../views/Sports.vue"),
+    path: "/setup",
+    name: "Setup",
+    component: () => import("../views/Setup.vue"),
     meta: {
-      title: "运动",
+      title: "设置",
     },
   },
   {
