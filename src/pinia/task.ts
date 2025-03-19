@@ -9,6 +9,7 @@ export interface TaskParams {
   pageSize: number;
   status: Status | 'all';
   daterange: string[] | null;
+  daterangeFinish: string[] | null;
   keyword: string;
 }
 
@@ -62,13 +63,21 @@ export const useTaskStore = defineStore('task', {
       return true;
     },
     queryList(params: TaskParams) {
-      const { pageNum, pageSize, daterange, status, keyword } = params;
+      const { pageNum, pageSize, daterange, daterangeFinish, status, keyword } = params;
       let list = this.tasks;
       if (daterange?.length) {
         const start = moment(daterange[0]).startOf('day').valueOf();
         const end = moment(daterange[1]).endOf('day').valueOf();
         list = list.filter((v) => {
           const date = moment(v.ctime).valueOf();
+          return date >= start && date <= end;
+        });
+      }
+      if (daterangeFinish?.length) {
+        const start = moment(daterangeFinish[0]).startOf('day').valueOf();
+        const end = moment(daterangeFinish[1]).endOf('day').valueOf();
+        list = list.filter((v) => {
+          const date = moment(v.ftime).valueOf();
           return date >= start && date <= end;
         });
       }
@@ -79,7 +88,7 @@ export const useTaskStore = defineStore('task', {
         list = list.filter((v) => v.title.toLowerCase().includes(keyword.toLowerCase()) || v.content.toLowerCase().includes(keyword.toLowerCase()));
       }
       const idx = (pageNum - 1) * pageSize;
-      return { pageNum, pageSize, total: this.tasks.length, list: list.slice(idx, idx + pageSize) };
+      return { pageNum, pageSize, total: list.length, list: list.slice(idx, idx + pageSize) };
     },
   },
 });

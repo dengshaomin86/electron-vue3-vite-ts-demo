@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper tasks">
     <h1>待办</h1>
-    <ExtForm ref="formRef" size="small" inline :items="itemsSearch" :model="formDataSearch">
+    <ExtForm ref="formRef" size="small" inline :items="itemsSearch" :model="formDataSearch" :label-width="60">
       <template #opts>
         <el-button type="primary" :loading="loading" @click="search">查询</el-button>
         <el-button @click="reset">重置</el-button>
@@ -74,10 +74,12 @@ const formData = reactive({
 const formDataSearch = reactive<{
   keyword: string;
   daterange: string[];
+  daterangeFinish: string[];
   status: Status | 'all';
 }>({
   keyword: '',
   daterange: [],
+  daterangeFinish: [],
   status: 'all',
 });
 
@@ -117,7 +119,7 @@ const itemsSearch = computed<FormItem[]>(() => {
     {
       prop: 'keyword',
       label: '关键字',
-      span: 6,
+      span: 8,
       component: 'el-input',
       attrs: {
         placeholder: '请输入',
@@ -127,7 +129,19 @@ const itemsSearch = computed<FormItem[]>(() => {
     {
       prop: 'daterange',
       label: '创建时间',
-      span: 6,
+      span: 8,
+      component: 'el-date-picker',
+      attrs: {
+        type: 'daterange',
+        startPlaceholder: '开始',
+        endPlaceholder: '结束',
+        valueFormat: 'YYYY-MM-DD',
+      },
+    },
+    {
+      prop: 'daterangeFinish',
+      label: '完成时间',
+      span: 8,
       component: 'el-date-picker',
       attrs: {
         type: 'daterange',
@@ -139,7 +153,7 @@ const itemsSearch = computed<FormItem[]>(() => {
     {
       prop: 'status',
       label: '状态',
-      span: 6,
+      span: 8,
       component: 'el-select-v2',
       attrs: {
         placeholder: '请选择',
@@ -234,7 +248,9 @@ const search = () => {
 };
 
 const reset = () => {
+  formDataSearch.keyword = '';
   formDataSearch.daterange = [];
+  formDataSearch.daterangeFinish = [];
   formDataSearch.status = 'all';
 };
 
@@ -309,10 +325,11 @@ onActivated(getList);
   }
 }
 
-::v-deep .form-task {
+.form-task {
   margin: 0 40px;
-  .el-form-item {
-    margin-bottom: 16px;
-  }
+}
+
+::v-deep .el-form-item {
+  margin-bottom: 16px;
 }
 </style>
