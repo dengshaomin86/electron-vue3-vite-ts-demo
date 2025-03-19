@@ -38,11 +38,9 @@ configStore.setTheme();
 
   .content {
     flex: 1;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    .side-bar {
-      margin-right: 16px;
-    }
 
     main {
       flex: 1;
