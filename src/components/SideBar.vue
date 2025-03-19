@@ -1,8 +1,8 @@
 <template>
   <div class="side-bar">
     <div class="logo">
-      <img src="/logo@512.png" alt="" />
-      <div>simple</div>
+      <img src="/logo@512.png" />
+      <div>{{ APP_NAME }}</div>
     </div>
     <div class="content">
       <template v-for="item in MENUS">
@@ -15,6 +15,7 @@
 <script setup lang="ts">
 import { useRoute, useRouter } from 'vue-router';
 import { useConfigStore } from '@/pinia/config';
+import { APP_NAME } from '@/utils/constants';
 
 interface MenuItem {
   icon: string;

@@ -3,7 +3,7 @@
     <main>
       <img src="/logo@512.png" />
       <div class="r">
-        <div class="name">{{ name }}</div>
+        <div class="name">{{ APP_NAME }}</div>
         <div class="version">
           <span>v{{ version }}</span>
           <el-button type="primary" link :loading="loading" @click="checkForUpdates">检查更新</el-button>
@@ -22,8 +22,8 @@ import { app } from '@electron/remote';
 import { ElMessage } from 'element-plus';
 import { formatterSize } from '@/utils';
 import { checkForUpdates } from '@/utils/ipcRenderer';
+import { APP_NAME } from '@/utils/constants';
 
-const name = app.getName();
 const version = app.getVersion();
 
 const loading = ref<boolean>(false);
