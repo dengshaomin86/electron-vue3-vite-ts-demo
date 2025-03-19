@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper tasks">
     <h1>待办</h1>
     <ExtForm ref="formRef" size="small" inline :items="itemsSearch" :model="formDataSearch">
       <template #opts>
@@ -37,7 +37,7 @@
 
     <ExtPagination v-model:pageNum="pageNum" :pageSize="pageSize" :total="total" @change="getList"></ExtPagination>
 
-    <el-dialog v-model="visible" title="新增" :destroy-on-close="true" :close-on-click-modal="false">
+    <el-dialog v-model="visible" :title="taskId ? '编辑' : '新增'" :destroy-on-close="true" :close-on-click-modal="false">
       <ExtForm ref="formRef" class="form-task" :items="items" :model="formData" :label-width="60">
         <template #opts>
           <el-button type="primary" :loading="loading" @click="submit">提交</el-button>
@@ -50,7 +50,7 @@
 <script setup lang="ts">
 import moment from 'moment';
 import { cloneDeep } from 'lodash-es';
-import { ref, computed, reactive, onActivated } from 'vue';
+import { ref, computed, reactive, onActivated, h } from 'vue';
 import { ElMessageBox } from 'element-plus';
 import { useTaskStore, TaskItem, Status } from '@/pinia/task';
 import ExtForm, { FormItem } from '@/components/ExtForm.vue';
@@ -72,9 +72,11 @@ const formData = reactive({
 });
 
 const formDataSearch = reactive<{
+  keyword: string;
   daterange: string[];
   status: Status | 'all';
 }>({
+  keyword: '',
   daterange: [],
   status: 'all',
 });
@@ -113,14 +115,24 @@ const items = computed<FormItem[]>(() => {
 const itemsSearch = computed<FormItem[]>(() => {
   return [
     {
+      prop: 'keyword',
+      label: '关键字',
+      span: 6,
+      component: 'el-input',
+      attrs: {
+        placeholder: '请输入',
+        clearable: true,
+      },
+    },
+    {
       prop: 'daterange',
       label: '创建时间',
-      span: 8,
+      span: 6,
       component: 'el-date-picker',
       attrs: {
         type: 'daterange',
-        startPlaceholder: '开始日期',
-        endPlaceholder: '结束日期',
+        startPlaceholder: '开始',
+        endPlaceholder: '结束',
         valueFormat: 'YYYY-MM-DD',
       },
     },
@@ -185,12 +197,14 @@ const submit = () => {
 };
 
 const delItem = (item: TaskItem) => {
-  ElMessageBox.confirm(`是否删除${item.title}?`, {
+  ElMessageBox.confirm(h('div', [h('span', '是否删除'), h('strong', { style: { color: 'red', margin: '0 4px' } }, item.title), h('span', '?')]), {
     title: '提示',
-    type: 'warning',
+    type: 'error',
+    showCancelButton: false,
   })
     .then(() => {
       taskStore.delTask(item.id);
+      getList();
     })
     .catch(() => {});
 };
@@ -203,9 +217,10 @@ const handleModify = async (item: TaskItem) => {
 };
 
 const finishItem = (item: TaskItem) => {
-  ElMessageBox.confirm(`是否标记完成${item.title}?`, {
+  ElMessageBox.confirm(h('div', [h('strong', { style: { color: 'red', marginRight: '4px' } }, item.title), h('span', '已完成?')]), {
     title: '提示',
-    type: 'warning',
+    type: 'success',
+    showCancelButton: false,
   })
     .then(() => {
       taskStore.finishTask(item.id);
@@ -223,10 +238,15 @@ const reset = () => {
   formDataSearch.status = 'all';
 };
 
+const scrolltop = () => {
+  document.querySelector('.tasks')?.scrollTo({ top: 0 });
+};
+
 const getList = () => {
   const result = taskStore.queryList({ pageNum: pageNum.value, pageSize: pageSize.value, ...formDataSearch });
   list.value = result.list;
   total.value = result.total;
+  scrolltop();
 };
 
 onActivated(getList);
@@ -239,6 +259,9 @@ onActivated(getList);
   overflow: auto;
   h1 {
     margin-bottom: 12px;
+  }
+  .el-empty {
+    margin: 10vw auto;
   }
 }
 
