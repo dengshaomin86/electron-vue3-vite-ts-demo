@@ -6,14 +6,15 @@
     </div>
     <div class="content">
       <template v-for="item in MENUS">
-        <i :class="['iconfont', item.icon, { active: route.name === item.routeName }]" @click="routeTo(item)"></i>
+        <i :class="['iconfont', item.icon, { active: route.name === item.routeName }]" @click="routeTo($event, item)"></i>
       </template>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { useRoute, useRouter } from "vue-router";
+import { useRoute, useRouter } from 'vue-router';
+import { useConfigStore } from '@/pinia/config';
 
 interface MenuItem {
   icon: string;
@@ -22,32 +23,44 @@ interface MenuItem {
 
 const MENUS: MenuItem[] = [
   {
-    icon: "icon-i-home",
-    routeName: "Home",
+    icon: 'icon-i-home',
+    routeName: 'Home',
   },
   {
-    icon: "icon-weather",
-    routeName: "Weather",
+    icon: 'icon-weather',
+    routeName: 'Weather',
   },
   {
-    icon: "icon-sports",
-    routeName: "Sports",
+    icon: 'icon-tasks',
+    routeName: 'Tasks',
   },
   {
-    icon: "icon-tasks",
-    routeName: "Tasks",
+    icon: 'icon-setup',
+    routeName: 'Setup',
   },
   {
-    icon: "icon-about",
-    routeName: "About",
+    icon: 'icon-about',
+    routeName: 'About',
   },
 ];
 
 const route = useRoute();
 const router = useRouter();
+const configStore = useConfigStore();
 
-const routeTo = (item: MenuItem) => {
+let timeout: any;
+
+const routeTo = async (e: any, item: MenuItem) => {
+  setTransition(e.clientY);
   router.push({ name: item.routeName });
+};
+
+const setTransition = (y: number) => {
+  configStore.setTransition('scale', { transformOrigin: `0 ${y}px` });
+  clearTimeout(timeout);
+  timeout = setTimeout(() => {
+    configStore.setTransition('');
+  }, 600);
 };
 </script>
 
@@ -57,6 +70,8 @@ const routeTo = (item: MenuItem) => {
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  z-index: 3;
 
   .logo {
     margin: 16px 0;

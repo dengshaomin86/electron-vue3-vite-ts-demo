@@ -22,6 +22,8 @@ import { minimize, destroy } from "@/utils/ipcRenderer";
   -webkit-app-region: drag;
   display: flex;
   justify-content: space-between;
+  position: relative;
+  z-index: 3;
   .r {
     @include app-panel;
     width: 300px;

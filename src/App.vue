@@ -5,9 +5,11 @@
       <Header></Header>
       <main>
         <router-view v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" />
-          </keep-alive>
+          <transition :name="configStore.gTransition" :style="configStore.gTransitionStyle">
+            <keep-alive>
+              <component :is="Component" />
+            </keep-alive>
+          </transition>
         </router-view>
       </main>
     </div>
@@ -15,9 +17,9 @@
 </template>
 
 <script setup lang="ts">
-import Header from "./components/Header.vue";
-import SideBar from "./components/SideBar.vue";
-import { useConfigStore } from "@/pinia/config";
+import Header from './components/Header.vue';
+import SideBar from './components/SideBar.vue';
+import { useConfigStore } from '@/pinia/config';
 
 const configStore = useConfigStore();
 
@@ -46,8 +48,31 @@ configStore.setTheme();
       flex: 1;
       height: 100%;
       overflow: auto;
+      position: relative;
     }
   }
+}
+
+.scale-enter-active {
+  transform-origin: 0 100px;
+  background: var(--bg-color);
+}
+.scale-enter-active,
+.scale-leave-active {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: 0.6s;
+}
+
+.scale-enter-from {
+  transform: scale(0);
+}
+
+.scale-leave-to {
+  opacity: 0;
 }
 </style>
 
