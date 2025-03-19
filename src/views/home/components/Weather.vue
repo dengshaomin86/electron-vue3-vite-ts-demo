@@ -17,11 +17,11 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
-import { Location } from "@element-plus/icons-vue";
-import { useWeatherStore } from "@/pinia/weather";
-import WeatherIcon from "@/components/icons/weather/WeatherIcon.vue";
+import { onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import { Location } from '@element-plus/icons-vue';
+import { useWeatherStore } from '@/pinia/weather';
+import WeatherIcon from '@/components/icons/weather/WeatherIcon.vue';
 
 const router = useRouter();
 const weatherStore = useWeatherStore();
@@ -35,32 +35,32 @@ const range = computed(() => `${today.value?.type}${wd(today.value?.low)}~${wd(t
 const list = computed(() => {
   return [
     {
-      label: "温度",
-      value: weatherData.value?.wendu + "℃",
+      label: '温度',
+      value: weatherData.value?.wendu + '℃',
     },
 
     {
-      label: "湿度",
+      label: '湿度',
       value: weatherData.value?.shidu,
     },
     {
-      label: "PM2.5",
+      label: 'PM2.5',
       value: weatherData.value?.pm25,
     },
     {
-      label: "PM10",
+      label: 'PM10',
       value: weatherData.value?.pm10,
     },
     {
-      label: "空气质量",
+      label: '空气质量',
       value: weatherData.value?.quality,
     },
   ];
 });
 
-const wd = (data: string | undefined) => data && data.replace(/.+?(\d+)/, "$1");
+const wd = (data: string | undefined) => data && data.replace(/.+?(\d+)/, '$1');
 
-const more = () => router.push({ name: "Weather" });
+const more = () => router.push({ name: 'Weather' });
 
 const init = () => {
   weatherStore.getWeather();
@@ -110,8 +110,8 @@ onMounted(init);
       font-size: 12px;
       margin-bottom: 4px;
       &-label {
-        opacity: 0.6;
         margin-right: 4px;
+        color: rgba(255, 255, 255, 0.6);
       }
     }
   }
