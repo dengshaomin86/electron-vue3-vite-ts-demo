@@ -97,25 +97,11 @@ const init = async () => {
     ],
     series: [
       {
-        name: 'Finish task',
+        name: '完成量',
         type: 'line',
-        smooth: true,
-        symbol: 'none',
-        sampling: 'lttb',
+        smooth: false,
         itemStyle: {
           color: 'rgb(255, 70, 131)',
-        },
-        areaStyle: {
-          color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
-            {
-              offset: 0,
-              color: 'rgb(255, 158, 68)',
-            },
-            {
-              offset: 1,
-              color: 'rgb(255, 70, 131)',
-            },
-          ]),
         },
         data: datas,
       },
