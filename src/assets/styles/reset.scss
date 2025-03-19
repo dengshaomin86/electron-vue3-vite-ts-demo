@@ -117,7 +117,7 @@ blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
+  content: '';
   content: none;
 }
 table {
@@ -143,6 +143,7 @@ table {
 
 ::-webkit-scrollbar-thumb {
   background-color: skyblue;
+  background-color: var(--border-color);
 }
 
 * {
