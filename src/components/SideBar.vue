@@ -56,6 +56,7 @@ const routeTo = async (e: any, item: MenuItem) => {
 };
 
 const setTransition = (y: number) => {
+  if (!configStore.gSetup.transitionSwitch) return;
   configStore.setTransition('scale', { transformOrigin: `0 ${y}px` });
   clearTimeout(timeout);
   timeout = setTimeout(() => {
