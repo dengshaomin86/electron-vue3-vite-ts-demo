@@ -7,14 +7,11 @@
 
 <script setup lang="ts">
 import moment from 'moment';
-import { ref, onMounted, nextTick, computed } from 'vue';
+import { onMounted, nextTick, computed } from 'vue';
 import * as echarts from 'echarts';
 import { useTaskStore } from '@/pinia/task';
 
 const taskStore = useTaskStore();
-
-const dates = ref<string[]>([]);
-const datas = ref<number[]>([]);
 
 const tasks = computed(() => taskStore.gTasks.filter((v) => v.status === 'finish'));
 
@@ -31,10 +28,11 @@ const mkDates = (date: number) => {
 };
 
 const handleTasks = () => {
+  if (!tasks.value.length) return { dates: [], datas: [] };
   const minDate = Math.min(...tasks.value.map((v) => moment(v.ftime).valueOf()));
-  dates.value = mkDates(minDate);
+  const dates = mkDates(minDate);
   let obj: any = {};
-  for (let date of dates.value) {
+  for (let date of dates) {
     obj[date] = 0;
   }
   for (let item of tasks.value) {
@@ -43,15 +41,15 @@ const handleTasks = () => {
       obj[date] += 1;
     }
   }
-  datas.value = Object.values(obj);
+  const datas = Object.values(obj);
+  return { dates, datas };
 };
 
 const init = async () => {
   await nextTick();
-  handleTasks();
-  var chartDom = document.getElementById('main');
-  var myChart = echarts.init(chartDom);
-  const dataZoomStart = ((dates.value.length - 7) / dates.value.length) * 100;
+  const { dates, datas } = handleTasks();
+  const myChart = echarts.init(document.getElementById('main'));
+  const dataZoomStart = ((dates.length - 7) / dates.length) * 100;
   myChart.setOption({
     tooltip: {
       trigger: 'axis',
@@ -74,7 +72,7 @@ const init = async () => {
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: dates.value,
+      data: dates,
       axisLabel: {
         fontSize: 10,
         formatter: function (value: string) {
@@ -119,7 +117,7 @@ const init = async () => {
             },
           ]),
         },
-        data: datas.value,
+        data: datas,
       },
     ],
   });
