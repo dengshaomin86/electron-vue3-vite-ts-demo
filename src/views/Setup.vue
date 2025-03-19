@@ -22,7 +22,7 @@ const items = computed<FormItem[]>(() => {
   return [
     {
       prop: '',
-      label: '开启切换动画',
+      label: '切换动画',
       component: 'el-switch',
       attrs: {
         modelValue: setupData.value.transitionSwitch,
