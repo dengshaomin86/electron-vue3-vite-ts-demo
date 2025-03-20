@@ -1,13 +1,22 @@
 <template>
   <div class="wrapper tasks">
-    <h1>待办</h1>
-    <ExtForm ref="formRef" size="small" inline :items="itemsSearch" :model="formDataSearch" :label-width="60">
-      <template #opts>
-        <el-button type="primary" :loading="loading" @click="search">查询</el-button>
-        <el-button @click="reset">重置</el-button>
-        <el-button @click="handleAdd">新增</el-button>
-      </template>
-    </ExtForm>
+    <div class="title">
+      <h1>待办</h1>
+      <div class="header-icon">
+        <el-icon :class="{ active: showFilter }" @click="showFilter = !showFilter"><Filter /></el-icon>
+        <el-icon @click="handleAdd"><DocumentAdd /></el-icon>
+      </div>
+    </div>
+    <header>
+      <Transition name="slidedown">
+        <ExtForm v-show="showFilter" ref="formRef" size="small" inline :items="itemsSearch" :model="formDataSearch" :label-width="60">
+          <template #opts>
+            <el-button type="primary" :loading="loading" @click="search">查询</el-button>
+            <el-button @click="reset">重置</el-button>
+          </template>
+        </ExtForm>
+      </Transition>
+    </header>
     <div class="list">
       <div class="list-item" v-for="item in list">
         <div class="list-item-title">
@@ -52,6 +61,7 @@ import moment from 'moment';
 import { cloneDeep } from 'lodash-es';
 import { ref, computed, reactive, onActivated, h } from 'vue';
 import { ElMessageBox } from 'element-plus';
+import { Filter, DocumentAdd } from '@element-plus/icons-vue';
 import { useTaskStore, TaskItem, Status } from '@/pinia/task';
 import ExtForm, { FormItem } from '@/components/ExtForm.vue';
 import ExtPagination from '@/components/ExtPagination.vue';
@@ -59,6 +69,7 @@ import ExtPagination from '@/components/ExtPagination.vue';
 const taskStore = useTaskStore();
 
 const formRef = ref<InstanceType<typeof ExtForm>>();
+const showFilter = ref<boolean>(false);
 const visible = ref<boolean>(false);
 const loading = ref<boolean>(false);
 const taskId = ref<string>('');
@@ -273,8 +284,31 @@ onActivated(getList);
   padding: 16px;
   height: 100%;
   overflow: auto;
-  h1 {
-    margin-bottom: 12px;
+  .title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h1 {
+      margin-bottom: 12px;
+    }
+    .header-icon {
+      .el-icon {
+        transition: 0.15s;
+        font-size: 2vw;
+        margin-left: 1vw;
+        &:hover {
+          cursor: pointer;
+          color: var(--el-color-primary);
+        }
+        &.active {
+          color: var(--el-color-primary);
+        }
+      }
+    }
+  }
+
+  header {
+    overflow: hidden;
   }
   .el-empty {
     margin: 10vw auto;
