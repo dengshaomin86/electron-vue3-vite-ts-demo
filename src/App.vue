@@ -50,28 +50,6 @@ configStore.setTheme();
     }
   }
 }
-
-.scale-enter-active {
-  transform-origin: 0 100px;
-  background: var(--bg-color);
-}
-.scale-enter-active,
-.scale-leave-active {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transition: 0.6s;
-}
-
-.scale-enter-from {
-  transform: scale(0);
-}
-
-.scale-leave-to {
-  opacity: 0;
-}
 </style>
 
 <style lang="scss">

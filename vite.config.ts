@@ -40,6 +40,7 @@ export default defineConfig({
         @import '@/assets/styles/reset.scss';
         @import '@/assets/styles/theme.scss';
         @import '@/assets/styles/mixin.scss';
+        @import '@/assets/styles/transition.scss';
         `,
       },
     },
