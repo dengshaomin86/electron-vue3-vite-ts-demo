@@ -363,7 +363,7 @@ onActivated(getList);
   margin: 0 40px;
 }
 
-::v-deep .el-form-item {
+:deep(.el-form-item) {
   margin-bottom: 16px;
 }
 </style>

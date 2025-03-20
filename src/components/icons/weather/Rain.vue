@@ -29,7 +29,7 @@
 </template>
 
 <script setup lang="ts">
-import { withDefaults, computed } from "vue";
+import { computed } from 'vue';
 
 interface DropItem {
   x: number;
@@ -38,7 +38,7 @@ interface DropItem {
 }
 
 interface Props {
-  type?: "small" | "middle" | "large";
+  type?: 'small' | 'middle' | 'large';
 }
 
 const VIEW_WIDTH = 150;
@@ -50,7 +50,7 @@ enum DropNum {
 }
 
 const props = withDefaults(defineProps<Props>(), {
-  type: "middle",
+  type: 'middle',
 });
 
 const drops = computed(() => {
